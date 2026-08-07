@@ -53,6 +53,7 @@ def main():
 
     train_ds = IRSolarDataset(root, split="train")
     val_ds = IRSolarDataset(root, split="val")
+    
     train_loader = DataLoader(train_ds, batch_size=64, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_ds, batch_size=64, shuffle=False, num_workers=0)
 
