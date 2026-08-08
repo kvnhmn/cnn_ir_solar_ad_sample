@@ -5,7 +5,8 @@ from pathlib import Path
 
 from PIL import Image
 from torch.utils.data import Dataset
-from torchvision import transforms
+
+from core.preprocess import preprocess
 
 
 class IRSolarDataset(Dataset):
@@ -13,7 +14,6 @@ class IRSolarDataset(Dataset):
     def __init__(self, root, split="train", val_ratio=0.2, size=(24, 40), seed=42):
         self.root: Path = Path(root)
         self.split = split
-        self.size = size
 
         with open(self.root / "module_metadata.json") as f:
             metadata = json.load(f)
@@ -21,7 +21,7 @@ class IRSolarDataset(Dataset):
         self.items = []
         for idx in metadata:
             original_item = metadata[idx]
-            label = 0  # 0 = no anomaly
+            label = 0
             if original_item["anomaly_class"] != "No-Anomaly":
                 label = 1
 
@@ -39,12 +39,6 @@ class IRSolarDataset(Dataset):
         else:
             self.items = self.items[:val_len]
 
-        self.transform = transforms.Compose([
-            transforms.Resize(size),
-            transforms.Grayscale(num_output_channels=1),
-            transforms.ToTensor()
-        ])
-
     def __len__(self):
         return len(self.items)
 
@@ -53,7 +47,7 @@ class IRSolarDataset(Dataset):
         image = Image.open(self.root / item["image_filepath"])
 
         return {
-            "image": self.transform(image),
+            "image": preprocess(image),
             "label": item["label"],
             "path": item["image_filepath"]
         }

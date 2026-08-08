@@ -1,4 +1,5 @@
 .idea/
 .claude/
 dataset
-!src/dataset/
+!training/dataset
+*.pt

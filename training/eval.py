@@ -1,8 +1,8 @@
 import torch
 from sklearn.metrics import confusion_matrix, classification_report
 from torch.utils.data import DataLoader
-from dataset.ir_solar import IRSolarDataset
-from network.ir_net import IRNet
+from training.dataset.ir_solar import IRSolarDataset
+from core.ir_net import IRNet
 
 
 @torch.no_grad()
@@ -33,7 +33,7 @@ def main():
     val_loader = DataLoader(val_ds, batch_size=64, shuffle=False, num_workers=0)
 
     model = IRNet(in_channels=1, num_classes=2)
-    model.load_state_dict(torch.load("irnet.pt", map_location=device, weights_only=True))
+    model.load_state_dict(torch.load("../model/irnet.pt", map_location=device, weights_only=True))
     model.to(device)
 
     full_evaluation(model, val_loader, device)

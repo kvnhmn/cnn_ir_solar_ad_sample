@@ -1,8 +1,8 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader
-from dataset.ir_solar import IRSolarDataset
-from network.ir_net import IRNet
+from training.dataset.ir_solar import IRSolarDataset
+from core.ir_net import IRNet
 
 
 def train_one_epoch(model, loader, criterion, optimizer, device) -> float:
@@ -53,7 +53,7 @@ def main():
 
     train_ds = IRSolarDataset(root, split="train")
     val_ds = IRSolarDataset(root, split="val")
-    
+
     train_loader = DataLoader(train_ds, batch_size=64, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_ds, batch_size=64, shuffle=False, num_workers=0)
 
@@ -68,7 +68,7 @@ def main():
         print(f"epoch {epoch:2d} | train {train_loss:.4f} | "
               f"val {val_loss:.4f} | val-acc {val_acc:.3f}")
 
-    torch.save(model.state_dict(), "irnet.pt")
+    torch.save(model.state_dict(), "../model/irnet.pt")
 
 
 if __name__ == "__main__":

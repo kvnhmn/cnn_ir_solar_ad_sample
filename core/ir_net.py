@@ -38,7 +38,7 @@ def main() -> None:
 
     dummy = torch.randn(4, 1, 24, 40)
     out = model(dummy)
-    print(f"output: {tuple(out.shape)}")   # should be (4, 2)
+    print(f"output: {tuple(out.shape)}")
 
 
 if __name__ == "__main__":

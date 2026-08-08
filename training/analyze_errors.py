@@ -3,8 +3,8 @@ from collections import Counter
 from pathlib import Path
 
 import torch
-from dataset.ir_solar import IRSolarDataset
-from network.ir_net import IRNet
+from training.dataset.ir_solar import IRSolarDataset
+from core.ir_net import IRNet
 
 
 def load_original_classes(root) -> dict[str, str]:
@@ -54,7 +54,7 @@ def main():
     orig_classes = load_original_classes(root)
 
     model = IRNet(in_channels=1, num_classes=2)
-    model.load_state_dict(torch.load("irnet.pt", map_location=device, weights_only=True))
+    model.load_state_dict(torch.load("../model/irnet.pt", map_location=device, weights_only=True))
     model.to(device)
 
     analyze(model, val_ds, device, orig_classes)
